@@ -14,6 +14,30 @@ const petInfo: PetInfo = {
   distance: 10,
 };
 
+type DevToolsBrowser = "chrome" | "firefox" | "other";
+
+function detectDevToolsBrowser(): DevToolsBrowser {
+  const ua = navigator.userAgent.toLowerCase();
+
+  if (ua.includes("firefox")) {
+    return "firefox";
+  }
+
+  if (ua.includes("chrome") || ua.includes("chromium") || ua.includes("edg")) {
+    return "chrome";
+  }
+
+  return "other";
+}
+
+function getDevToolsOpenShortcut(): string {
+  return navigator.platform.toLowerCase().includes("mac") ? "Cmd+Option+I" : "F12 or Ctrl+Shift+I";
+}
+
+function getDebuggerTabName(browser: DevToolsBrowser): string {
+  return browser === "firefox" ? "Debugger" : "Sources";
+}
+
 // ===== CHROME DEVTOOLS EXAMPLES: MESSAGE LOGGING =====
 
 // Log Info - Used for informational messages
@@ -24,19 +48,19 @@ function logInfoExample(): void {
 
 // Log Warning - Used for potential issues
 function logWarningExample(): void {
-  console.warn("⚠️ [WARNING] Pet happiness is dropping:", petInfo.happiness);
+  console.warn("[WARNING] Pet happiness is dropping:", petInfo.happiness);
   console.warn("Consider playing with your pet soon!");
 }
 
 // Log Error - Used for errors
 function logErrorExample(): void {
-  console.error("❌ [ERROR] Pet weight is critically low:", petInfo.weight);
+  console.error("[ERROR] Pet weight is critically low:", petInfo.weight);
   console.error("The pet needs immediate attention!");
 }
 
 // Log Table - Display data in table format (great for objects and arrays)
 function logTableExample(): void {
-  console.log("📊 Current Pet Status Table:");
+  console.log("[TABLE] Current Pet Status Table:");
   console.table(petInfo);
   
   // Example with array of data
@@ -45,13 +69,13 @@ function logTableExample(): void {
     { action: "Play", happiness: 10, weight: 12, timestamp: "12:05" },
     { action: "Exercise", happiness: 9, weight: 10, timestamp: "12:10" }
   ];
-  console.log("📊 Pet Action History:");
+  console.log("[TABLE] Pet Action History:");
   console.table(petHistory);
 }
 
 // Log Group - Group related logs together
 function logGroupExample(): void {
-  console.group("🐱 Pet Interaction Group");
+  console.group("Pet Interaction Group");
   console.log("User clicked Treat button");
   console.log("Happiness before: 8");
   petInfo.happiness += 1;
@@ -60,7 +84,7 @@ function logGroupExample(): void {
   console.groupEnd();
   
   // Nested groups
-  console.group("🎮 Nested Group Example");
+  console.group("Nested Group Example");
   console.log("Level 1: Main action");
   console.group("Level 2: Sub-action");
   console.log("Processing pet stats...");
@@ -73,7 +97,7 @@ function logGroupExample(): void {
 // Log Custom - Using styling with CSS in console
 function logCustomExample(): void {
   const kittyStyle = "color: #ff6b9d; font-size: 16px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);";
-  console.log("%c🎀 Custom Styled Console Message!", kittyStyle);
+  console.log("%cCustom Styled Console Message!", kittyStyle);
   
   console.log("%cPet Name: Discord Kitten", "color: #4285f4; font-size: 14px;");
   console.log("%cStatus: Happy & Healthy", "color: #34a853; font-size: 14px; font-weight: bold;");
@@ -84,11 +108,11 @@ function logCustomExample(): void {
 
 // Cause 404 Network Error - Try to fetch a non-existent resource
 function cause404Error(): void {
-  console.log("🌐 Attempting to fetch non-existent image (will cause 404)...");
+  console.log("[NETWORK] Attempting to fetch non-existent image (will cause 404)...");
   fetch("/images/nonexistent-pet.png")
     .then(response => {
       if (!response.ok) {
-        console.error("❌ Network Error - 404:", response.status, response.statusText);
+        console.error("[ERROR] Network Error - 404:", response.status, response.statusText);
       }
       return response;
     })
@@ -97,13 +121,13 @@ function cause404Error(): void {
 
 // Cause TypeError - Intentional type error for debugging
 function causeTypeError(): void {
-  console.log("🔴 Deliberately causing a TypeError...");
+  console.log("[ERROR-DEMO] Deliberately causing a TypeError...");
   try {
     // This will cause: TypeError: Cannot read property 'toUpperCase' of undefined
     const undefinedVariable: any = undefined;
     const result = undefinedVariable.toUpperCase();
   } catch (error) {
-    console.error("❌ TypeError caught:", error);
+    console.error("[ERROR] TypeError caught:", error);
   }
 }
 
@@ -162,18 +186,38 @@ function filterByUserMessages(): void {
 // Example 1: Intentional Bug for Debugging - Division by zero scenario
 let bugCounter = 0;
 function reproduceBugExample(): void {
-  console.log("🐛 Reproducing a common bug: division by zero");
+  console.log("[BUG] Reproducing a common bug: division by zero");
   
   bugCounter++;
-  const divisor = bugCounter === 3 ? 0 : bugCounter;
+  const divisor = 0;
   
   // This will cause unexpected behavior when divisor is 0
   const result = 100 / divisor;
-  console.log("Result of 100 / " + divisor + " = " + result);
+  console.log("Attempt #" + bugCounter + " -> Result of 100 / " + divisor + " = " + result);
   
   if (!isFinite(result)) {
-    console.error("❌ BUG DETECTED: Division resulted in Infinity!");
+    console.error("[BUG] DETECTED: Division resulted in Infinity!");
   }
+}
+
+// Example 1b: Browser-aware debugger panel orientation walkthrough.
+function getFamiliarSourcesUIExample(): void {
+  const browser = detectDevToolsBrowser();
+  const debuggerTab = getDebuggerTabName(browser);
+
+  console.group("Debugging Panel Quick Tour");
+  console.info("1) Open DevTools with " + getDevToolsOpenShortcut() + ".");
+  console.info("2) Select the " + debuggerTab + " tab.");
+  console.info("3) In the left file tree, open script.js or script.ts.");
+  console.info("4) In the center editor, click a line number to set a breakpoint.");
+  console.info("5) Use the side panel to inspect Scope, Watch Expressions, and Breakpoints.");
+  console.info("6) Use F8/F10/F11 to resume or step through execution.");
+  if (browser === "firefox") {
+    console.info("Firefox tip: this panel is named Debugger, not Sources.");
+  } else {
+    console.info("Chrome tip: this panel is named Sources.");
+  }
+  console.groupEnd();
 }
 
 // Example 2: Variable Inspection - Function with multiple variables to inspect
@@ -185,7 +229,7 @@ function variableInspectionExample(): void {
   const isHappy: boolean = petHappiness > 5;
   const petStats = { name: petName, weight: petWeight, happiness: petHappiness };
   
-  console.log("📍 Set a breakpoint here to inspect variables in the Scope pane");
+  console.log("[BREAKPOINT] Set a breakpoint here to inspect variables in the Scope pane");
   console.log("Variable inspection complete"); // Set breakpoint here
 }
 
@@ -223,7 +267,7 @@ function pauseOnExceptionExample(): void {
 // Pause with a line-of-code breakpoint or debugger statement.
 function pauseWithDebuggerExample(): void {
   const stage = "pre-breakpoint";
-  console.log("🛑 Set a line breakpoint or let the debugger statement pause here");
+  console.log("[BREAKPOINT] Set a line breakpoint or let the debugger statement pause here");
   debugger;
   console.log("Debugger resumed at stage:", stage);
 }
@@ -234,7 +278,7 @@ function applyFixExample(): void {
   const divisor = Math.max(bugCounter, 1);
   const result = 100 / divisor;
 
-  console.log("✅ Fixed division result:", result);
+  console.log("[FIXED] Division result:", result);
   console.log("Bug counter:", bugCounter, "Divisor used:", divisor);
 
   if (Number.isFinite(result)) {
@@ -244,7 +288,7 @@ function applyFixExample(): void {
 
 // Example 5: Step Through Code - Function with multiple statements
 function stepThroughCodeExample(): void {
-  console.log("🔍 Stepping through this function:");
+  console.log("[DEBUG] Stepping through this function:");
   
   // Step 1: Initialize
   let step = 1;
@@ -266,6 +310,9 @@ function stepThroughCodeExample(): void {
 
 // jQuery-ready block: bind button actions and render initial state.
 $(function (): void {
+  const browser = detectDevToolsBrowser();
+  const debuggerTab = getDebuggerTabName(browser);
+
   checkAndUpdatePetInfoInHtml();
 
   $(".treat-button").bind("click", clickedTreatButton);
@@ -293,6 +340,7 @@ $(function (): void {
   $(".devtools-filter-user-messages").on("click", filterByUserMessages);
   
   $(".devtools-reproduce-bug").on("click", reproduceBugExample);
+  $(".devtools-sources-ui").on("click", getFamiliarSourcesUIExample);
   $(".devtools-variable-inspection").on("click", variableInspectionExample);
   $(".devtools-watch-expressions").on("click", watchExpressionsExample);
   $(".devtools-pause-exception").on("click", pauseOnExceptionExample);
@@ -300,7 +348,23 @@ $(function (): void {
   $(".devtools-step-through").on("click", stepThroughCodeExample);
   $(".devtools-apply-fix").on("click", applyFixExample);
   
-  console.log("🚀 Discord Kitten App loaded! Open DevTools (F12) to see console logging examples.");
+  console.log("[READY] Discord Kitten App loaded! Open DevTools (" + getDevToolsOpenShortcut() + ") to see console logging examples.");
+  if (browser === "firefox") {
+    console.info("[READY] Firefox detected: use the " + debuggerTab + " tab for breakpoints and stepping.");
+  } else if (browser === "chrome") {
+    console.info("[READY] Chromium browser detected: use the " + debuggerTab + " tab for breakpoints and stepping.");
+  } else {
+    console.info("[READY] Browser detected: use your debugger panel for breakpoints and stepping.");
+  }
+
+  // Also show a visible hint on the page so users of Firefox see correct instructions
+  try {
+    const prettyBrowser = browser === "firefox" ? "Firefox" : browser === "chrome" ? "Chrome/Chromium" : "your browser";
+    const hint = `Detected ${prettyBrowser}: Open DevTools with ${getDevToolsOpenShortcut()}; use the ${debuggerTab} tab for breakpoints and stepping.`;
+    $(".devtools-hint").text(hint);
+  } catch (e) {
+    // ignore if DOM not ready
+  }
 });
 
 // Adds and removes a temporary CSS class to trigger button animations.

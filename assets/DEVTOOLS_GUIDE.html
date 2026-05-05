@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HW10 Chrome DevTools Implementation Guide</title>
+    <title>HW10 Browser DevTools Implementation Guide</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -137,8 +137,8 @@
 </head>
 <body>
     <header>
-        <h1>🛠️ HW10: Chrome DevTools Implementation Guide</h1>
-        <p>Comprehensive guide to all Chrome DevTools features implemented in the Discord Kitten project</p>
+        <h1>🛠️ HW10: Browser DevTools Implementation Guide</h1>
+        <p>Comprehensive guide to DevTools features implemented for both Chrome and Firefox in the Discord Kitten project</p>
     </header>
 
     <!-- 1. MESSAGE LOGGING SECTION -->
@@ -227,7 +227,7 @@
     <!-- 2. VIEW MESSAGES LOGGED BY BROWSER -->
     <div class="section">
         <h2>🔍 View Messages Logged by the Browser</h2>
-        <p>Chrome automatically logs errors and issues that occur in your application:</p>
+        <p>Modern browsers automatically log errors and issues that occur in your application:</p>
 
         <h3>2.1 Cause 404 Network Error</h3>
         <p>When you request a resource that doesn't exist on the server.</p>
@@ -271,7 +271,7 @@
     <!-- 3. FILTER MESSAGES -->
     <div class="section">
         <h2>🔎 Filter Messages</h2>
-        <p>Chrome DevTools provides powerful filtering capabilities in the Console:</p>
+        <p>Chrome and Firefox DevTools provide powerful filtering capabilities in the Console:</p>
 
         <h3>3.1 Filter by Log Level</h3>
         <p>Show only messages of a specific severity level.</p>
@@ -318,12 +318,12 @@
     <!-- 4. DEBUGGING & BREAKPOINTS -->
     <div class="section">
         <h2>🐛 Debugging & Breakpoints</h2>
-        <p>Chrome DevTools Sources panel allows you to pause and inspect code execution:</p>
+        <p>The Sources panel (Chrome) or Debugger panel (Firefox) allows you to pause and inspect code execution:</p>
 
         <h3>4.1 Set a Line-of-Code Breakpoint</h3>
         <p>Pause execution at a specific line to inspect state.</p>
         <div class="steps">
-            <div class="step"><strong>Step 1:</strong> Open DevTools (F12) → Sources tab</div>
+            <div class="step"><strong>Step 1:</strong> Open DevTools (F12) → Sources tab (Chrome) or Debugger tab (Firefox)</div>
             <div class="step"><strong>Step 2:</strong> Find the file: <code>script.js</code></div>
             <div class="step"><strong>Step 3:</strong> Click on a line number to set a breakpoint (blue dot appears)</div>
             <div class="step"><strong>Step 4:</strong> Click a demo button that triggers that code</div>
@@ -374,7 +374,7 @@
         <h3>4.4 Pause on Exception</h3>
         <p>Automatically pause when an error occurs.</p>
         <div class="steps">
-            <div class="step"><strong>Step 1:</strong> In DevTools Sources, look for pause icon (bottom-right)</div>
+            <div class="step"><strong>Step 1:</strong> In Sources/Debugger, look for the pause-on-exceptions control</div>
             <div class="step"><strong>Step 2:</strong> Click to select "Pause on uncaught exceptions"</div>
             <div class="step"><strong>Step 3:</strong> Click "Pause on Exception" button in the app</div>
             <div class="step"><strong>Result:</strong> Execution pauses at the exact line that throws</div>
@@ -402,10 +402,10 @@
         </div>
     </div>
 
-    <!-- 5. SOURCES UI -->
+    <!-- 5. SOURCES/DEBUGGER UI -->
     <div class="section">
-        <h2>📁 Get Familiar with the Sources UI</h2>
-        <p>Understanding the Sources panel layout:</p>
+        <h2>📁 Get Familiar with the Sources/Debugger UI</h2>
+        <p>Understanding the browser debugger panel layout:</p>
 
         <table>
             <tr>
@@ -448,19 +448,19 @@
     <!-- SUMMARY -->
     <div class="summary-box">
         <h2>✅ Summary of Implementation</h2>
-        <p>This project demonstrates all major Chrome DevTools features:</p>
+        <p>This project demonstrates major DevTools features in both Chrome and Firefox:</p>
         <ul class="feature-list">
             <li><strong>6 Console Logging Types:</strong> Info, Warning, Error, Table, Group, Custom styling</li>
             <li><strong>3 Error Examples:</strong> 404 network errors, TypeErrors, performance violations</li>
             <li><strong>5 Filter Methods:</strong> By level, text, regex, source, user messages</li>
             <li><strong>5 Debugging Techniques:</strong> Breakpoints, variable inspection, stepping, watch expressions, exception handling</li>
-            <li><strong>Complete Sources UI:</strong> File navigation, code editing, debug panels</li>
+            <li><strong>Complete Sources/Debugger UI:</strong> File navigation, code editing, debug panels</li>
         </ul>
-        <p><strong>How to use:</strong> Open the main page in a browser, click any demo button, then press F12 to open DevTools and observe the results in the Console, Network, Sources, or Performance tabs.</p>
+        <p><strong>How to use:</strong> Open the main page in a browser, click any demo button, then press F12 to open DevTools and observe the results in Console, Network, Sources/Debugger, or Performance tools.</p>
     </div>
 
     <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #667eea; text-align: center; color: #666;">
-        <p>HW10 Chrome DevTools Implementation | Discord Kitten Project | CSUN CS484</p>
+        <p>HW10 Browser DevTools Implementation | Discord Kitten Project | CSUN CS484</p>
     </footer>
 </body>
 </html>

@@ -1,8 +1,8 @@
-# HW10: Chrome DevTools Implementation
+# HW10: DevTools Implementation (Chrome + Firefox)
 
 ## Project Overview
 
-This is an enhanced version of the Discord Kitten project that implements comprehensive examples for all major Chrome DevTools features as required for HW10. The project demonstrates practical usage of the Chrome Developer Tools for debugging, performance analysis, and code inspection.
+This is an enhanced version of the Discord Kitten project that implements comprehensive examples for major browser DevTools features as required for HW10. The project demonstrates practical usage of Chrome DevTools and Firefox DevTools for debugging, performance analysis, and code inspection.
 
 ## Features Implemented
 
@@ -49,8 +49,15 @@ This is an enhanced version of the Discord Kitten project that implements compre
    # or
    npx http-server
    ```
-3. Open `http://localhost:8000` in Chrome
+3. Open `http://localhost:8000` in Chrome or Firefox
 4. Open DevTools with **F12** or **Ctrl+Shift+I** (Windows/Linux) / **Cmd+Option+I** (Mac)
+
+### Browser Mapping (Chrome vs Firefox)
+
+- **Sources tab (Chrome)** maps to **Debugger tab (Firefox)**
+- **Console tab** exists in both browsers
+- **Network tab** exists in both browsers
+- **Performance tools** exist in both browsers with slightly different layouts
 
 ### Testing Each Feature
 
@@ -71,7 +78,7 @@ This is an enhanced version of the Discord Kitten project that implements compre
 4. Click "Show Message Sources" to see tagged messages like [PET-CONTROLLER]
 
 #### Debugging with Breakpoints
-1. Open Sources tab in DevTools
+1. Open Sources (Chrome) or Debugger (Firefox) in DevTools
 2. Click line numbers to set breakpoints (blue dots appear)
 3. Click a demo button to trigger the function
 4. Code execution pauses at the breakpoint
@@ -80,7 +87,7 @@ This is an enhanced version of the Discord Kitten project that implements compre
 
 #### Variable Inspection
 1. Click "Variable Inspection" button
-2. The Sources tab should open with code paused
+2. The Sources/Debugger tab should open with code paused
 3. Look at the right panel to see all variables in the Scope pane
 4. Expand objects to see their properties
 5. Type in Console to evaluate expressions like `petInfo.happiness * 2`
@@ -109,13 +116,13 @@ comp484-project2-hw10/
     └── treat.png             # Treat reward image
 ```
 
-## Chrome DevTools Tabs Used
+## DevTools Tabs Used (Chrome + Firefox)
 
 | Tab | Purpose | Features Demonstrated |
 |-----|---------|----------------------|
 | **Console** | View logs, errors, warnings | All message logging examples |
 | **Network** | Monitor HTTP requests | 404 errors, failed requests |
-| **Sources** | Debug JavaScript code | Breakpoints, stepping, variable inspection |
+| **Sources (Chrome) / Debugger (Firefox)** | Debug JavaScript code | Breakpoints, stepping, variable inspection |
 | **Performance** | Analyze performance | Long-running operations, performance violations |
 
 ## Key Shortcuts in DevTools
@@ -209,7 +216,7 @@ When creating your PDF documentation, include screenshots of:
 2. Function is actually called (click corresponding button)
 3. Code hasn't been minified (use .ts source map)
 
-### Cannot Find script.js in Sources
+### Cannot Find script.js in Sources/Debugger
 
 **Solution**: TypeScript must be compiled:
 ```bash
@@ -222,6 +229,7 @@ npm run build  # Compile TypeScript
 - [Chrome DevTools Console Logging](https://developer.chrome.com/docs/devtools/console/log/)
 - [Chrome DevTools JavaScript Debugging](https://developer.chrome.com/docs/devtools/javascript/)
 - [Chrome DevTools Overview](https://developer.chrome.com/docs/devtools/)
+- [Firefox DevTools Documentation](https://firefox-source-docs.mozilla.org/devtools-user/)
 
 ## Submission Requirements
 
@@ -236,10 +244,10 @@ npm run build  # Compile TypeScript
 
 ## Author Notes
 
-This project serves as both a functional pet simulator and a comprehensive tutorial for Chrome DevTools. Each demo button is designed to be clicked and observed in real-time with DevTools open, making it an excellent learning tool for understanding debugging techniques in web development.
+This project serves as both a functional pet simulator and a comprehensive tutorial for Chrome and Firefox DevTools. Each demo button is designed to be clicked and observed in real-time with DevTools open, making it an excellent learning tool for understanding debugging techniques in web development.
 
 ---
 
 **Last Updated**: May 2026
 **Course**: CS484 (Web Programming)
-**Assignment**: HW10 - Chrome Dev Tools
+**Assignment**: HW10 - Browser DevTools

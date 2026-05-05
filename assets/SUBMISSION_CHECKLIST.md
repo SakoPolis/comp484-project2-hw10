@@ -31,7 +31,7 @@
 - [x] **Step Through Code** - F10/F11 stepping
 - [x] **Sources UI** - File navigator, Code editor, Debug panel
 
-### UI Components (15/15 Demo Buttons)
+### UI Components (18/18 Demo Buttons)
 - [x] Log Info button
 - [x] Log Warning button
 - [x] Log Error button
@@ -43,11 +43,16 @@
 - [x] Cause Performance Violation button
 - [x] Show Message Sources button
 - [x] Filter by Text Example button
+- [x] Filter by Regex Example button
+- [x] Filter by User Messages button
 - [x] Reproduce Bug button
+- [x] Get Familiar with Sources UI button
 - [x] Variable Inspection button
 - [x] Watch Expressions Example button
 - [x] Pause on Exception button
+- [x] Pause with Breakpoint button
 - [x] Step Through Code button
+- [x] Apply Fix button
 
 ## 📝 Documentation Completed
 

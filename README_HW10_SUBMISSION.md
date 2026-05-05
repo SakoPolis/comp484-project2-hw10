@@ -1,10 +1,10 @@
-# HW10 - Chrome DevTools Implementation
+# HW10 - DevTools Implementation (Chrome + Firefox)
 
-This is the submission for the CS484 HW10 assignment: Chrome DevTools Implementation.
+This is the submission for the CS484 HW10 assignment: browser DevTools implementation.
 
 ## Project Overview
 
-This project is a copy of Project 2 (Discord Kitten pet simulator) that has been enhanced with practical Chrome DevTools examples for educational purposes.
+This project is a copy of Project 2 (Discord Kitten pet simulator) that has been enhanced with practical DevTools examples for educational purposes in both Chrome and Firefox.
 
 ## What's Included
 
@@ -84,15 +84,15 @@ python -m http.server 8000
 npx http-server
 ```
 
-Then open `http://localhost:8000` in Chrome.
+Then open `http://localhost:8000` in Chrome or Firefox.
 
 ### Testing DevTools Examples
 
 1. Open DevTools with **F12** or **Ctrl+Shift+I** (Windows/Linux) / **Cmd+Option+I** (Mac)
-2. Click buttons in the "Chrome DevTools Examples" section to:
+2. Click buttons in the "DevTools Examples (Chrome + Firefox)" section to:
    - See logging examples in the Console tab
    - Trigger errors in the Network tab
-   - Set breakpoints in the Sources tab
+    - Set breakpoints in Sources (Chrome) or Debugger (Firefox)
    - Inspect variables and watch expressions
 
 ### View the PDF Report
@@ -142,7 +142,7 @@ npm run clean     # Remove compiled files
 
 ## Assignment Requirements Met
 
-✅ Chrome DevTools console logging examples (6 types)
+✅ DevTools console logging examples (6 types)
 ✅ Browser-generated messages (404, TypeError, performance)
 ✅ Message filtering examples (5 methods)
 ✅ Debugging with breakpoints
@@ -155,7 +155,7 @@ npm run clean     # Remove compiled files
 
 ## Submission Details
 
-- **Assignment**: HW10 - Chrome DevTools
+- **Assignment**: HW10 - Browser DevTools
 - **Course**: CS484 Web Programming
 - **Date**: May 2026
 - **Repository**: GitHub (comp484-project2-hw10)
@@ -165,6 +165,7 @@ npm run clean     # Remove compiled files
 - [Chrome DevTools Console Documentation](https://developer.chrome.com/docs/devtools/console/log/)
 - [Chrome DevTools JavaScript Debugging](https://developer.chrome.com/docs/devtools/javascript/)
 - [Chrome DevTools Overview](https://developer.chrome.com/docs/devtools/)
+- [Firefox DevTools Documentation](https://firefox-source-docs.mozilla.org/devtools-user/)
 
 ---
 
