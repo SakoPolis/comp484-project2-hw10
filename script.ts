@@ -109,7 +109,7 @@ function logCustomExample(): void {
 // Cause 404 Network Error - Try to fetch a non-existent resource
 function cause404Error(): void {
   console.log("[NETWORK] Attempting to fetch non-existent image (will cause 404)...");
-  fetch("/images/nonexistent-pet.png")
+  fetch("images/nonexistent-pet.png")
     .then(response => {
       if (!response.ok) {
         console.error("[ERROR] Network Error - 404:", response.status, response.statusText);

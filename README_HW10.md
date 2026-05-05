@@ -52,6 +52,16 @@ This is an enhanced version of the Discord Kitten project that implements compre
 3. Open `http://localhost:8000` in Chrome or Firefox
 4. Open DevTools with **F12** or **Ctrl+Shift+I** (Windows/Linux) / **Cmd+Option+I** (Mac)
 
+### GitHub Pages Deployment
+
+This project is GitHub Pages-safe as a static site. After publishing the repository, open the site at your project Pages URL, for example:
+
+```text
+https://<your-github-username>.github.io/comp484-project2-hw10/
+```
+
+The app uses relative paths for local assets, so it works from the project subpath that GitHub Pages assigns.
+
 ### Browser Mapping (Chrome vs Firefox)
 
 - **Sources tab (Chrome)** maps to **Debugger tab (Firefox)**
