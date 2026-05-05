@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW10 Chrome DevTools Implementation Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #764ba2;
+            margin-top: 20px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .example {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .steps {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-left: 3px solid #667eea;
+            border-radius: 3px;
+        }
+        .step strong {
+            color: #667eea;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #667eea;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .button-demo {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .summary-box {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛠️ HW10: Chrome DevTools Implementation Guide</h1>
+        <p>Comprehensive guide to all Chrome DevTools features implemented in the Discord Kitten project</p>
+    </header>
+
+    <!-- 1. MESSAGE LOGGING SECTION -->
+    <div class="section">
+        <h2>📋 Message Logging Examples</h2>
+        <p>The Console panel in DevTools displays messages logged by your application. Different log levels help categorize messages:</p>
+
+        <h3>1.1 Log Info</h3>
+        <p>Used for informational messages about the application's state and operations.</p>
+        <div class="example">
+            console.info("ℹ️ [INFO] Pet was just fed! Happiness is now: 9");
+        </div>
+        <p><strong>In DevTools:</strong> Shows as a regular message with an info icon (ℹ️)</p>
+        <ul class="feature-list">
+            <li>Appears in Console tab</li>
+            <li>Blue info icon next to message</li>
+            <li>Use for non-critical application events</li>
+        </ul>
+
+        <h3>1.2 Log Warning</h3>
+        <p>Used for potential issues or warnings that shouldn't occur during normal operation.</p>
+        <div class="example">
+            console.warn("⚠️ [WARNING] Pet happiness is dropping: 5");
+        </div>
+        <p><strong>In DevTools:</strong> Shows as a warning with yellow background and warning icon (⚠️)</p>
+        <ul class="feature-list">
+            <li>Yellow warning background in console</li>
+            <li>Visible in Console and Issues tab</li>
+            <li>Use for conditions that should be investigated</li>
+        </ul>
+
+        <h3>1.3 Log Error</h3>
+        <p>Used for actual errors in the application.</p>
+        <div class="example">
+            console.error("❌ [ERROR] Pet weight is critically low: 0");
+        </div>
+        <p><strong>In DevTools:</strong> Shows with red background and error icon (❌)</p>
+        <ul class="feature-list">
+            <li>Red error background in console</li>
+            <li>Increments error counter at top of console</li>
+            <li>Use for exceptional conditions</li>
+        </ul>
+
+        <h3>1.4 Log Table</h3>
+        <p>Display objects and arrays as formatted tables in the console.</p>
+        <div class="example">
+            console.table(petInfo);<br>
+            console.table(petHistory);
+        </div>
+        <p><strong>In DevTools:</strong> Renders data as an HTML table</p>
+        <ul class="feature-list">
+            <li>Organized columns for object properties</li>
+            <li>Sortable by clicking column headers</li>
+            <li>Great for viewing structured data</li>
+        </ul>
+
+        <h3>1.5 Log Group</h3>
+        <p>Organize console messages into hierarchical groups that can be collapsed/expanded.</p>
+        <div class="example">
+            console.group("🐱 Pet Interaction Group");<br>
+            console.log("User clicked Treat button");<br>
+            console.log("Happiness updated");<br>
+            console.groupEnd();
+        </div>
+        <p><strong>In DevTools:</strong> Messages appear nested with collapsible arrow</p>
+        <ul class="feature-list">
+            <li>Creates collapsible section in console</li>
+            <li>Supports nested groups (console.group within group)</li>
+            <li>Improves console readability for complex operations</li>
+        </ul>
+
+        <h3>1.6 Log Custom</h3>
+        <p>Style console messages using CSS to make them stand out.</p>
+        <div class="example">
+            const style = "color: #ff6b9d; font-size: 16px; font-weight: bold;";<br>
+            console.log("%c🎀 Custom Styled Message!", style);
+        </div>
+        <p><strong>In DevTools:</strong> Appears with custom styling (colors, sizes, fonts)</p>
+        <ul class="feature-list">
+            <li>Use %c placeholder for styled section</li>
+            <li>CSS style properties can be applied</li>
+            <li>Multiple %c styles in one message</li>
+        </ul>
+    </div>
+
+    <!-- 2. VIEW MESSAGES LOGGED BY BROWSER -->
+    <div class="section">
+        <h2>🔍 View Messages Logged by the Browser</h2>
+        <p>Chrome automatically logs errors and issues that occur in your application:</p>
+
+        <h3>2.1 Cause 404 Network Error</h3>
+        <p>When you request a resource that doesn't exist on the server.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click "Cause 404 Error" button on the main page</div>
+            <div class="step"><strong>Step 2:</strong> Open DevTools (F12)</div>
+            <div class="step"><strong>Step 3:</strong> Go to Console tab</div>
+            <div class="step"><strong>Step 4:</strong> Look for "❌ Network Error - 404"</div>
+            <div class="step"><strong>Step 5:</strong> Go to Network tab to see the failed request in red</div>
+        </div>
+        <div class="note">
+            <strong>What to look for:</strong> Network tab shows GET request with 404 status code in red text
+        </div>
+
+        <h3>2.2 Cause TypeError</h3>
+        <p>When code attempts an invalid operation on a variable.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click "Cause TypeError" button</div>
+            <div class="step"><strong>Step 2:</strong> In DevTools Console, see "🔴 Deliberately causing a TypeError..."</div>
+            <div class="step"><strong>Step 3:</strong> Look for error message about calling method on undefined</div>
+            <div class="step"><strong>Step 4:</strong> Stack trace shows which line caused the error</div>
+        </div>
+        <div class="note">
+            <strong>What to look for:</strong> Red error message with file name and line number in stack trace
+        </div>
+
+        <h3>2.3 Cause Performance Violation</h3>
+        <p>Long-running operations that block the main thread and cause performance issues.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click "Cause Performance Violation" button</div>
+            <div class="step"><strong>Step 2:</strong> Go to Performance tab in DevTools</div>
+            <div class="step"><strong>Step 3:</strong> Click the circle to record, then click button again</div>
+            <div class="step"><strong>Step 4:</strong> Stop recording and view the performance timeline</div>
+            <div class="step"><strong>Step 5:</strong> Look for a long continuous yellow/orange bar indicating heavy CPU usage</div>
+        </div>
+        <div class="note">
+            <strong>What to look for:</strong> Long task indicator in the Performance timeline
+        </div>
+    </div>
+
+    <!-- 3. FILTER MESSAGES -->
+    <div class="section">
+        <h2>🔎 Filter Messages</h2>
+        <p>Chrome DevTools provides powerful filtering capabilities in the Console:</p>
+
+        <h3>3.1 Filter by Log Level</h3>
+        <p>Show only messages of a specific severity level.</p>
+        <div class="steps">
+            <div class="step"><strong>In Console tab:</strong> Click the filter funnel icon</div>
+            <div class="step"><strong>Uncheck:</strong> "Errors", "Warnings", or "Logs" as needed</div>
+            <div class="step"><strong>Result:</strong> Console shows only messages matching your filter</div>
+        </div>
+
+        <h3>3.2 Filter by Text</h3>
+        <p>Search for messages containing specific text.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click "Filter by Text Example" button</div>
+            <div class="step"><strong>Step 2:</strong> In Console tab, type in the filter box at top</div>
+            <div class="step"><strong>Step 3:</strong> Example: type "action" to see "User action" messages</div>
+            <div class="step"><strong>Result:</strong> Only messages containing that text display</div>
+        </div>
+
+        <h3>3.3 Filter by Regular Expression</h3>
+        <p>Advanced text filtering using regex patterns.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click filter box and enable regex with icon</div>
+            <div class="step"><strong>Step 2:</strong> Enter pattern like: <code>/\[.*\]/</code></div>
+            <div class="step"><strong>Result:</strong> Shows only messages matching the regex pattern</div>
+        </div>
+
+        <h3>3.4 Filter by Message Source</h3>
+        <p>Messages are tagged with their source module.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Click "Show Message Sources" button</div>
+            <div class="step"><strong>Step 2:</strong> Notice messages tagged like [PET-CONTROLLER], [UI-RENDERER]</div>
+            <div class="step"><strong>Step 3:</strong> In filter box, type a source tag like "CONTROLLER"</div>
+            <div class="step"><strong>Result:</strong> Shows only messages from that source</div>
+        </div>
+
+        <h3>3.5 Filter by User Messages</h3>
+        <p>Distinguish between browser-generated and application-generated messages.</p>
+        <div class="note">
+            <strong>User Messages:</strong> Created by console.log(), console.warn(), etc.<br>
+            <strong>Browser Messages:</strong> Network errors, warnings, automated checks
+        </div>
+    </div>
+
+    <!-- 4. DEBUGGING & BREAKPOINTS -->
+    <div class="section">
+        <h2>🐛 Debugging & Breakpoints</h2>
+        <p>Chrome DevTools Sources panel allows you to pause and inspect code execution:</p>
+
+        <h3>4.1 Set a Line-of-Code Breakpoint</h3>
+        <p>Pause execution at a specific line to inspect state.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Open DevTools (F12) → Sources tab</div>
+            <div class="step"><strong>Step 2:</strong> Find the file: <code>script.js</code></div>
+            <div class="step"><strong>Step 3:</strong> Click on a line number to set a breakpoint (blue dot appears)</div>
+            <div class="step"><strong>Step 4:</strong> Click a demo button that triggers that code</div>
+            <div class="step"><strong>Step 5:</strong> Execution pauses at the breakpoint</div>
+        </div>
+        <div class="note">
+            <strong>Try this:</strong> Click "Variable Inspection" button and set a breakpoint in that function
+        </div>
+
+        <h3>4.2 Check Variable Values</h3>
+        <p>When paused at a breakpoint, inspect variable values in multiple ways:</p>
+
+        <h4>The Scope Pane</h4>
+        <p>Shows all variables in the current execution context.</p>
+        <div class="steps">
+            <div class="step"><strong>Location:</strong> Right side panel when paused at breakpoint</div>
+            <div class="step"><strong>Contains:</strong> Local, Closure, and Global scopes</div>
+            <div class="step"><strong>Expand objects:</strong> Click triangle to see nested properties</div>
+        </div>
+
+        <h4>Watch Expressions</h4>
+        <p>Manually enter expressions to evaluate while code is paused.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> In DevTools, click "Watch" section</div>
+            <div class="step"><strong>Step 2:</strong> Click + to add expression</div>
+            <div class="step"><strong>Step 3:</strong> Type expression like <code>petInfo.happiness * 2</code></div>
+            <div class="step"><strong>Step 4:</strong> Value updates as you step through code</div>
+        </div>
+
+        <h4>The Console</h4>
+        <p>Type commands directly in Console while paused at a breakpoint.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> When paused, open Console tab</div>
+            <div class="step"><strong>Step 2:</strong> Type a variable name: <code>petInfo</code></div>
+            <div class="step"><strong>Step 3:</strong> See the current value of that variable</div>
+            <div class="step"><strong>Step 4:</strong> Type expressions: <code>petInfo.happiness + 5</code></div>
+        </div>
+
+        <h3>4.3 Step Through Code</h3>
+        <p>Execute code line by line to understand program flow.</p>
+        <div class="steps">
+            <div class="step"><strong>Step Over (F10):</strong> Execute current line and move to next</div>
+            <div class="step"><strong>Step Into (F11):</strong> Step into function calls</div>
+            <div class="step"><strong>Step Out (Shift+F11):</strong> Execute until current function returns</div>
+            <div class="step"><strong>Continue (F8):</strong> Resume execution until next breakpoint</div>
+        </div>
+
+        <h3>4.4 Pause on Exception</h3>
+        <p>Automatically pause when an error occurs.</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> In DevTools Sources, look for pause icon (bottom-right)</div>
+            <div class="step"><strong>Step 2:</strong> Click to select "Pause on uncaught exceptions"</div>
+            <div class="step"><strong>Step 3:</strong> Click "Pause on Exception" button in the app</div>
+            <div class="step"><strong>Result:</strong> Execution pauses at the exact line that throws</div>
+        </div>
+
+        <h3>4.5 Reproduce a Bug</h3>
+        <p>Systematic approach to debug the division-by-zero example:</p>
+        <div class="steps">
+            <div class="step"><strong>Step 1:</strong> Open DevTools → Console tab</div>
+            <div class="step"><strong>Step 2:</strong> Click "Reproduce Bug (Division by Zero)" button</div>
+            <div class="step"><strong>Step 3:</strong> See "🐛 Reproducing a common bug: division by zero"</div>
+            <div class="step"><strong>Step 4:</strong> Notice after 3 clicks you see "BUG DETECTED: Division resulted in Infinity!"</div>
+            <div class="step"><strong>Step 5:</strong> Click button 3 times rapidly to see the bug trigger</div>
+        </div>
+        <div class="note">
+            <strong>What to look for:</strong> The bug only manifests when divisor equals 0 (on the 3rd click)
+        </div>
+
+        <h3>4.6 Apply a Fix</h3>
+        <p>After identifying a bug, implement the fix in your code:</p>
+        <div class="steps">
+            <div class="step"><strong>Original buggy code:</strong> <code>const divisor = bugCounter === 3 ? 0 : bugCounter;</code></div>
+            <div class="step"><strong>Fixed code:</strong> <code>const divisor = Math.max(bugCounter, 1); // Ensure divisor is at least 1</code></div>
+            <div class="step"><strong>Process:</strong> Edit code → Save → Refresh browser → Verify fix</div>
+        </div>
+    </div>
+
+    <!-- 5. SOURCES UI -->
+    <div class="section">
+        <h2>📁 Get Familiar with the Sources UI</h2>
+        <p>Understanding the Sources panel layout:</p>
+
+        <table>
+            <tr>
+                <th>Panel</th>
+                <th>Location</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><strong>File Navigator</strong></td>
+                <td>Left side</td>
+                <td>Browse all files loaded by the page</td>
+            </tr>
+            <tr>
+                <td><strong>Code Editor</strong></td>
+                <td>Center</td>
+                <td>Display source code with breakpoint indicators</td>
+            </tr>
+            <tr>
+                <td><strong>Debug Panel</strong></td>
+                <td>Right side</td>
+                <td>Watch expressions, scopes, call stack, and breakpoints</td>
+            </tr>
+            <tr>
+                <td><strong>Console</strong></td>
+                <td>Bottom (drawer)</td>
+                <td>Execute JavaScript while debugging</td>
+            </tr>
+        </table>
+
+        <h3>Key Features:</h3>
+        <ul class="feature-list">
+            <li><strong>Breakpoint Column:</strong> Click line numbers to add/remove breakpoints</li>
+            <li><strong>Conditional Breakpoints:</strong> Right-click line → Add conditional breakpoint</li>
+            <li><strong>Logpoints:</strong> Log a message without pausing execution</li>
+            <li><strong>Call Stack:</strong> Shows function call hierarchy when paused</li>
+            <li><strong>Scopes:</strong> View Local, Closure, and Global variables</li>
+        </ul>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-box">
+        <h2>✅ Summary of Implementation</h2>
+        <p>This project demonstrates all major Chrome DevTools features:</p>
+        <ul class="feature-list">
+            <li><strong>6 Console Logging Types:</strong> Info, Warning, Error, Table, Group, Custom styling</li>
+            <li><strong>3 Error Examples:</strong> 404 network errors, TypeErrors, performance violations</li>
+            <li><strong>5 Filter Methods:</strong> By level, text, regex, source, user messages</li>
+            <li><strong>5 Debugging Techniques:</strong> Breakpoints, variable inspection, stepping, watch expressions, exception handling</li>
+            <li><strong>Complete Sources UI:</strong> File navigation, code editing, debug panels</li>
+        </ul>
+        <p><strong>How to use:</strong> Open the main page in a browser, click any demo button, then press F12 to open DevTools and observe the results in the Console, Network, Sources, or Performance tabs.</p>
+    </div>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #667eea; text-align: center; color: #666;">
+        <p>HW10 Chrome DevTools Implementation | Discord Kitten Project | CSUN CS484</p>
+    </footer>
+</body>
+</html>
