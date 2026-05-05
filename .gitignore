@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript build outputs (but keep script.js tracked for this repo)
+/dist
+/lib
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# OS/editor
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Optional: lockfile (if you prefer not to commit it)
+# package-lock.json
