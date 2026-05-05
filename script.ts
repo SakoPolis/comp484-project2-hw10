@@ -142,6 +142,21 @@ function filterByTextExamples(): void {
   console.error("System error: connection failed");
 }
 
+// Filter by Regular Expression - Bracketed messages are easy to target with /\[.*\]/.
+function filterByRegexExamples(): void {
+  console.log("[FILTER-REGEX] Match this bracketed message");
+  console.warn("[FILTER-REGEX][WARNING] Another bracketed message");
+  console.log("plain message without brackets");
+  console.info("[FILTER-REGEX] Third message for regex filtering");
+}
+
+// Filter by User Messages - User-generated console output that can be separated from browser messages.
+function filterByUserMessages(): void {
+  console.log("User message: clicked a DevTools demo button");
+  console.info("User message: application state updated");
+  console.warn("User message: something worth checking");
+}
+
 // ===== CHROME DEVTOOLS EXAMPLES: DEBUGGING & BREAKPOINTS =====
 
 // Example 1: Intentional Bug for Debugging - Division by zero scenario
@@ -205,6 +220,28 @@ function pauseOnExceptionExample(): void {
   }
 }
 
+// Pause with a line-of-code breakpoint or debugger statement.
+function pauseWithDebuggerExample(): void {
+  const stage = "pre-breakpoint";
+  console.log("🛑 Set a line breakpoint or let the debugger statement pause here");
+  debugger;
+  console.log("Debugger resumed at stage:", stage);
+}
+
+// Apply a fix after reproducing the division-by-zero bug.
+function applyFixExample(): void {
+  bugCounter++;
+  const divisor = Math.max(bugCounter, 1);
+  const result = 100 / divisor;
+
+  console.log("✅ Fixed division result:", result);
+  console.log("Bug counter:", bugCounter, "Divisor used:", divisor);
+
+  if (Number.isFinite(result)) {
+    console.info("Fix applied successfully; the result stays finite.");
+  }
+}
+
 // Example 5: Step Through Code - Function with multiple statements
 function stepThroughCodeExample(): void {
   console.log("🔍 Stepping through this function:");
@@ -252,12 +289,16 @@ $(function (): void {
   
   $(".devtools-message-sources").on("click", demonstrateMessageSources);
   $(".devtools-filter-text").on("click", filterByTextExamples);
+  $(".devtools-filter-regex").on("click", filterByRegexExamples);
+  $(".devtools-filter-user-messages").on("click", filterByUserMessages);
   
   $(".devtools-reproduce-bug").on("click", reproduceBugExample);
   $(".devtools-variable-inspection").on("click", variableInspectionExample);
   $(".devtools-watch-expressions").on("click", watchExpressionsExample);
   $(".devtools-pause-exception").on("click", pauseOnExceptionExample);
+  $(".devtools-pause-breakpoint").on("click", pauseWithDebuggerExample);
   $(".devtools-step-through").on("click", stepThroughCodeExample);
+  $(".devtools-apply-fix").on("click", applyFixExample);
   
   console.log("🚀 Discord Kitten App loaded! Open DevTools (F12) to see console logging examples.");
 });

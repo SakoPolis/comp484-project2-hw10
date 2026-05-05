@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HW10 Chrome DevTools Report</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --paper: #f8fafc;
+      --ink: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --line: #dbe4f0;
+    }
+    @page { margin: 0.65in; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 24%, #f8fafc 100%);
+      color: var(--ink);
+      font: 14px/1.55 Georgia, "Times New Roman", serif;
+    }
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 34px 40px;
+      background: var(--paper);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+    header {
+      border-bottom: 4px solid var(--accent);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+    h1, h2, h3 {
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      line-height: 1.2;
+      margin: 0;
+    }
+    h1 {
+      font-size: 28px;
+      letter-spacing: 0.2px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+    .meta {
+      margin-top: 12px;
+      color: var(--muted);
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+    .lead {
+      font-size: 15px;
+      color: #1e293b;
+      margin: 18px 0 22px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin: 18px 0 24px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    }
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+    }
+    li { margin-bottom: 6px; }
+    .figure {
+      margin: 22px 0 26px;
+      page-break-inside: avoid;
+    }
+    .figure h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .figure p {
+      margin: 0 0 10px;
+      color: #334155;
+    }
+    .shot {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      padding: 8px;
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .caption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95em;
+      background: #e2e8f0;
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+    .footer-note {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Chrome DevTools Implementation Report</h1>
+      <div class="subtitle">HW10 - CS484 Web Programming</div>
+      <div class="meta">Project: Discord Kitten DevTools demo copy</div>
+      <div class="meta">Prepared for the Chrome DevTools console logging and JavaScript debugging assignment</div>
+    </header>
+
+    <p class="lead">
+      This report documents the practical Chrome DevTools examples added to the Project 2 copy. The app now includes console logging demos, browser-error reproducers, message filtering examples, breakpoint-friendly code paths, and a safe fix flow after reproducing the bug.
+    </p>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Implemented Areas</h2>
+        <ul>
+          <li>Message logging with <code>console.info</code>, <code>console.warn</code>, <code>console.error</code>, <code>console.table</code>, <code>console.group</code>, and styled console output.</li>
+          <li>Browser message examples for a 404 fetch error, a TypeError, and a long-running operation.</li>
+          <li>Filtering examples for text, regular expressions, message source tags, and user-generated messages.</li>
+          <li>Debugging examples for breakpoints, variable inspection, watch expressions, pause on exception, step-through practice, and a fixed version of the bug.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2>Key Files</h2>
+        <ul>
+          <li><code>index.html</code> adds the DevTools demo buttons.</li>
+          <li><code>script.ts</code> contains the new console and debugging examples.</li>
+          <li><code>script.js</code> is the compiled bundle used by the browser.</li>
+          <li><code>assets/DEVTOOLS_GUIDE.html</code> and the screenshots folder support the written report.</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="figure">
+      <h3>Figure 1. Main App Overview</h3>
+      <p>
+        The copied Project 2 page now exposes the DevTools demo buttons directly in the UI. This is the launch point for the logging, filtering, and debugging workflows described in the assignment.
+      </p>
+      <div class="shot">
+        <img src="screenshots/app-overview.png" alt="Project 2 app with DevTools demo buttons" />
+      </div>
+      <div class="caption">The app now includes all of the HW10 demo controls in one place.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 2. Filtering Guide</h3>
+      <p>
+        The guide section explains how to filter console messages by text, regular expression, source tag, and user-message type. This matches the new console output added in <code>script.ts</code>.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-filtering.png" alt="DevTools guide section about message filtering" />
+      </div>
+      <div class="caption">Filtering behavior is tied to the source-tagged and bracketed console messages in the demo code.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 3. Debugging and Breakpoints Guide</h3>
+      <p>
+        The debugging section covers line breakpoints, variable inspection, watch expressions, pause on exception, and stepping through code. The app includes dedicated functions for each of those flows, including a debugger-statement pause and a fixed division path.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-debugging.png" alt="DevTools guide section about breakpoints and debugging" />
+      </div>
+      <div class="caption">The debugging code paths are designed to be easy to pause and inspect in Chrome Sources.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 4. Logging Workflow Reference</h3>
+      <p>
+        This guide view shows the logging area that corresponds to the console info, warning, error, table, group, and custom-style examples in the app.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-4.png" alt="Guide reference screenshot for DevTools logging examples" />
+      </div>
+      <div class="caption">This section maps to the message logging controls implemented in the page.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 5. Console Logging Reference</h3>
+      <p>
+        The next guide section reinforces the browser logging flows and how they appear in the Console tab when the demo buttons are clicked.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-5.png" alt="Guide reference screenshot for console logging workflows" />
+      </div>
+      <div class="caption">Use this view while collecting the screenshots for the six message logging examples.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 6. Network Error Reference</h3>
+      <p>
+        This guide section describes the 404 network request scenario and the browser-generated message flow that appears after triggering the missing image fetch.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-6.png" alt="Guide reference screenshot for the 404 error workflow" />
+      </div>
+      <div class="caption">This aligns with the browser error examples in the assignment guide.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 7. TypeError Reference</h3>
+      <p>
+        The TypeError workflow is documented here so the console stack trace can be compared with the app's intentional invalid-property access example.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-7.png" alt="Guide reference screenshot for the TypeError workflow" />
+      </div>
+      <div class="caption">This section supports the browser-message debugging example in the app.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 8. Performance Violation Reference</h3>
+      <p>
+        The performance section explains the long-running operation demo and the record/stop workflow in the Performance panel.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-8.png" alt="Guide reference screenshot for the performance violation workflow" />
+      </div>
+      <div class="caption">This corresponds to the heavy computation example in the project code.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 9. Text Filtering Reference</h3>
+      <p>
+        This view shows the filtering guidance that matches the app's source-tagged and text-filterable console messages.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-9.png" alt="Guide reference screenshot for text filtering" />
+      </div>
+      <div class="caption">Use this section while explaining the filter-by-text and source-tag examples.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 10. Regex Filtering Reference</h3>
+      <p>
+        The regex guidance lines up with the bracketed messages emitted by the new filter-by-regex demo in the app.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-10.png" alt="Guide reference screenshot for regex filtering" />
+      </div>
+      <div class="caption">This section supports the regular-expression filter example.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 11. Message Source Reference</h3>
+      <p>
+        This screenshot anchors the source-tag filtering section, which is why the app prints messages like <code>[PET-CONTROLLER]</code> and <code>[UI-RENDERER]</code>.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-11.png" alt="Guide reference screenshot for message source filtering" />
+      </div>
+      <div class="caption">The source tags are intended to be easy to isolate in the Console.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 12. Breakpoint Setup Reference</h3>
+      <p>
+        This guide view is used to explain how to set a line-of-code breakpoint before triggering the variable-inspection and pause examples.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-12.png" alt="Guide reference screenshot for breakpoint setup" />
+      </div>
+      <div class="caption">This ties directly to the Sources-panel breakpoint workflow.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 13. Scope Pane Reference</h3>
+      <p>
+        The scope-pane instructions explain where local variables appear while paused in Sources, matching the app's inspection-friendly function bodies.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-13.png" alt="Guide reference screenshot for the scope pane workflow" />
+      </div>
+      <div class="caption">This section supports the variable inspection examples.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 14. Watch Expressions Reference</h3>
+      <p>
+        This guide screenshot explains the watch-expression panel and how to track values while stepping through the debugging examples.
+      </p>
+      <div class="shot">
+        <img src="screenshots/guide-shot-14.png" alt="Guide reference screenshot for watch expressions" />
+      </div>
+      <div class="caption">This is the companion to the watch-expressions demo in the code.</div>
+    </section>
+
+    <section class="figure">
+      <h3>Figure 15. App Overview Reference</h3>
+      <p>
+        The final capture closes the loop with the app itself, showing the DevTools demo controls that map to the guide sections throughout the report.
+      </p>
+      <div class="shot">
+        <img src="screenshots/app-overview-2.png" alt="Project 2 app with DevTools demo buttons" />
+      </div>
+      <div class="caption">This is the page users interact with while collecting the live DevTools screenshots.</div>
+    </section>
+
+    <section class="card">
+      <h2>Summary</h2>
+      <p>
+        The project copy now serves as a practical DevTools exercise page and the PDF now includes the complete 15-figure screenshot sequence required by the assignment. It gives a clear path for reproducing a bug, inspecting execution state in Sources, and then applying the fix with the corrected division logic in the app.
+      </p>
+    </section>
+
+    <div class="footer-note">
+      Generated from the workspace copy of the Project 2 assignment for submission to the HW10 Chrome DevTools task.
+    </div>
+  </div>
+</body>
+</html>
