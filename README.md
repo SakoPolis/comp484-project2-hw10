@@ -5,6 +5,7 @@ writeup pdf: https://github.com/SakoPolis/comp484-project2-hw10/blob/main/assets
 
 unnecessary instructions for testing:
 https://github.com/SakoPolis/comp484-project2-hw10/blob/main/README_HW10.md
+https://github.com/SakoPolis/comp484-project2-hw10/blob/main/README_HW10_SUBMISSION.md
 
 Discord injection:
 `allow pasting`
